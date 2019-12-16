@@ -1,0 +1,39 @@
+spring:
+  security:
+    user:
+      name: oggarlic
+      password: oggarlic
+      roles: ADMIN
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      default-filters:
+      #断路器
+      - name: Hystrix
+        args:
+          name: fallbackcmd
+          fallbackUri: forward:/fallback
+      routes:
+      - id: account
+        #此处需要大写
+        uri: lb://SERVICE-ACCOUNT
+        predicates:
+        - Path=/oggarlic/account/**
+        filters:
+        #请求地址去掉一位重定向 不要跟RewritePath一起用
+#        - StripPrefix=1
+        #请求地址重写（这里是去掉account）
+        - RewritePath=/oggarlic/account/(?<segment>.*), /$\{segment}
+        #使用令牌限流(需要连redis)
+        - name: RequestRateLimiter
+          args:
+            #用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象。
+            key-resolver: '#{@uriKeyResolver}'
+            #令牌桶每秒填充平均速率
+            redis-rate-limiter.replenishRate: 1
+            #限流令牌每秒钟桶总容量
+            redis-rate-limiter.burstCapacity: 3
+

@@ -1,0 +1,13 @@
+spring:
+  http:
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 5
+    eureka-server-total-connections: 200
+    eureka-server-total-connections-per-host: 50
