@@ -1,9 +1,4 @@
 spring:
-  security:
-    user:
-      name: oggarlic
-      password: oggarlic
-      roles: ADMIN
   cloud:
     gateway:
       discovery:
