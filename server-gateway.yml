@@ -1,4 +1,6 @@
-
+info:
+  app:
+    name: server-gateway
 spring:
   security:
     user:
