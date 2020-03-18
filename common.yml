@@ -1,9 +1,4 @@
-info:
-  company:
-    name: oggarlic
-  build:
-    artifactId: $project.artifactId$
-    version: $project.version$
+
 spring:
   http:
     encoding:
